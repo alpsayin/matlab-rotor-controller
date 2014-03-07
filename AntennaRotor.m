@@ -1,28 +1,32 @@
 classdef AntennaRotor < handle
-    %AntennaRotor a handle class for controlling the antenna rotator
-%       ar = AntennaRotor('COM1', 9600);
-%       ar.openPort();     
-%       ar.setDegreesPerStep(2);
-%       ar.setDirection('cw');
-%       ar.executeStep();
-%         function obj = AntennaRotor(portName)
-%         function obj = AntennaRotor(portName, baudrate)
-%         function setControllerAddress(address)
-%         function setup()
-%         function disableSafetyLimits()
-%         function enableSafetyLimits()
-%         function resetSystem()
-%         function setDegreesPerStep(degrees_per_step)
-%         function setDirection(direction)
-%         function activateStep()
-%         function goToZero()
-%         function emergencyStop()
-%         function openFile()
-%         function openPort()
-%         function close()
-%         function response = query(queryStr)
-%         function printf(varargin)
-%         function response = scanf()
+%     AntennaRotor a handle class for controlling the antenna rotator
+%       Example:
+%           ar = AntennaRotor('COM1', 9600);
+%           ar.openPort();     
+%           ar.setDegreesPerStep(2);
+%           ar.setDirection('cw');
+%           ar.executeStep();
+%           ar.close();
+%       Constructors:
+%                 obj = AntennaRotor(portName)
+%                 obj = AntennaRotor(portName, baudrate)
+%       Functions:
+%                 setControllerAddress(address)
+%                 setup()
+%                 disableSafetyLimits()
+%                 enableSafetyLimits()
+%                 resetSystem()
+%                 setDegreesPerStep(degrees_per_step)
+%                 setDirection(direction)
+%                 activateStep()
+%                 goToZero()
+%                 emergencyStop()
+%                 openFile()
+%                 openPort()
+%                 close()
+%                 response = query(queryStr)
+%                 printf(varargin)
+%                 response = scanf()
     properties(Constant)
         PAUSE_TIME_FOR_STEP_MS = 100;
     end
