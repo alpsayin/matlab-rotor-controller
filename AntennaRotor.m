@@ -1,15 +1,21 @@
 classdef AntennaRotor < handle
 %     AntennaRotor a handle class for controlling the antenna rotator
+% 
 %       Example:
 %           ar = AntennaRotor('COM1', 9600);
 %           ar.openPort();     
+%           ar.setup();
+%           ar.disableSafetyLimits();
+%           ar.resetSystem();
 %           ar.setDegreesPerStep(2);
 %           ar.setDirection('cw');
-%           ar.executeStep();
-%           ar.close();
+%           ar.activateStep();
+%           ar.close(); % never forget to close the port after you are done
+% 
 %       Constructors:
 %                 obj = AntennaRotor(portName)
 %                 obj = AntennaRotor(portName, baudrate)
+% 
 %       Functions:
 %                 setControllerAddress(address)
 %                 setup()
@@ -28,21 +34,18 @@ classdef AntennaRotor < handle
 %                 printf(varargin)
 %                 response = scanf()
     properties(Constant)
-        PAUSE_TIME_FOR_STEP_MS = 100;
+        PAUSE_TIME_PER_DEGREES_MS = 100;    % Time delay per degrees to wait for rotation to be completed
     end
     properties(SetAccess = protected)
         degrees_per_step = 1;
-        direction = 'cw';
-        portname = 'COM1';
+        direction = 'cw'; % cw or ccw
+        portname = 'COM1'; % port name can be different for unix systems (e.g. /dev/ttyUSB0)
         baudrate = 9600;
-        comportObj;
-        safetylimits = 1;
-        controlleraddress = 0;
+        comportObj; %variable to hold serial port object
+        safetylimits = 1; %variable to hold the current state if safety limits enabled
+        controlleraddress = 0; % got no idea what this address refers to (taken directly from original program)
+        current_angle = 0; % current direction of the antenna
     end
-    properties(SetAccess = public)
-        current_angle = 0;
-    end
-    
     methods
         function obj = AntennaRotor(portName, baudrate)
         % class constructor
@@ -93,7 +96,7 @@ classdef AntennaRotor < handle
             else
                 obj.current_angle = obj.current_angle - obj.degrees_per_step;
             end
-            pause(PAUSE_TIME_FOR_STEP/1000*obj.degrees_per_step)
+            pause(obj.PAUSE_TIME_PER_DEGREES_MS/1000*obj.degrees_per_step)
         end
         function goToZero(obj)
             obj.printf('H-\r\n');
@@ -106,6 +109,8 @@ classdef AntennaRotor < handle
             obj.printf('K\r\n')
         end
         function openFile(obj)
+        % debug method to test the protocol with files, shouldn't be used
+        % for production
             obj.comportObj = fopen(obj.portname,'a');
         end
         function openPort(obj)
