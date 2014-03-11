@@ -134,9 +134,13 @@ classdef AntennaRotor < handle
             delay = obj.degrees_per_step/obj.velocity;
             pause(delay)
         end
-        function goToZero(obj)
-            obj.println('H-');
-            obj.println('%dLD0', obj.controlleraddress);
+        function goToHome(obj)
+            if strcmpi(obj.direction, 'cw')
+                obj.setCCW();
+            else
+                obj.setCW();
+            end
+            obj.disableSafetyLimits();
             obj.println('GH-2');
             obj.current_angle = 0;
         end
