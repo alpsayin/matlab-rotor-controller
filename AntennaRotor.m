@@ -1,6 +1,9 @@
 classdef AntennaRotor < handle
 %     AntennaRotor a handle class for controlling the antenna rotator
 % 
+%       Author:     Alp Sayin
+%       Date:       11.03.2014
+% 
 %       Example:
 %           ar = AntennaRotor('COM1', 9600);
 %           ar.openPort();     
