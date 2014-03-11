@@ -11,6 +11,10 @@ classdef AntennaRotor < handle
 %           ar.setDirection('ccw');
 %           ar.activateStep();
 %           ar.close(); % never forget to close the port after you are done
+%       
+%       Example:
+%           AntennaRotor.easyRotateCCW('COM4',30) % portname and degrees
+%           AntennaRotor.easyRotateCW('COM4',30) % portname and degrees
 % 
 %       Constructors:
 %                 obj = AntennaRotor(portName)
@@ -32,6 +36,8 @@ classdef AntennaRotor < handle
 %                 setVelocity( revs_per_sec )
 %                 setAcceleration( revs_per_sec_sq )
 %                 emergencyStop()
+%                 rotateCW()
+%                 rotateCCW()
 %                 openFile()
 %                 openPort()
 %                 close()
@@ -261,8 +267,6 @@ classdef AntennaRotor < handle
             
             obj.close();
         end
-
     end
-    
 end
 
