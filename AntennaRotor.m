@@ -50,7 +50,7 @@ classdef AntennaRotor < handle
         baudrate = 9600;
         comportObj; %variable to hold serial port object
         safetylimits = 1; %variable to hold the current state if safety limits enabled
-        controlleraddress = 0; % got no idea what this address refers to (taken directly from original program)
+        controlleraddress = 2; % got no idea what this address refers to (taken directly from original program)
         current_angle = 0; % current direction of the antenna
         acceleration = 1;
         velocity = 1;
