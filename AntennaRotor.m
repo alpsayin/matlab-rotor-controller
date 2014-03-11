@@ -243,7 +243,7 @@ classdef AntennaRotor < handle
             obj.disableSafetyLimits();
             pause(AntennaRotor.COMMAND_DELAY)
             
-            obj.activateStep();
+            obj.activateStepAndWait();
             
             obj.close();
         end
@@ -263,7 +263,7 @@ classdef AntennaRotor < handle
             obj.disableSafetyLimits();
             pause(AntennaRotor.COMMAND_DELAY)
             
-            obj.activateStep();
+            obj.activateStepAndWait();
             
             obj.close();
         end
