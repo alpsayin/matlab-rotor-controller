@@ -185,6 +185,78 @@ classdef AntennaRotor < handle
         function response = scanf(obj)
             response = fscanf(obj.comportObj);
         end
+        function rotateCW(obj, degrees)
+            obj.defaultSetup();
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.setDegreesPerStep(degrees);
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.setCW();
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.disableSafetyLimits();
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.activateStep();
+        end
+        function rotateCCW(obj, degrees)
+            obj.defaultSetup();
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.setDegreesPerStep(degrees);
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.setCCW();
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.disableSafetyLimits();
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.activateStep();
+        end
+    end
+    methods(Static)
+        function easyRotateCW( portname, degrees)
+            obj = AntennaRotor(portname);
+            obj.openPort();
+            
+            obj.defaultSetup();
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.setDegreesPerStep(degrees);
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.setCW();
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.disableSafetyLimits();
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.activateStep();
+            
+            obj.close();
+        end
+        function easyRotateCCW( portname, degrees)
+            obj = AntennaRotor(portname);
+            obj.openPort();
+            
+            obj.defaultSetup();
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.setDegreesPerStep(degrees);
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.setCCW();
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.disableSafetyLimits();
+            pause(AntennaRotor.COMMAND_DELAY)
+            
+            obj.activateStep();
+            
+            obj.close();
+        end
 
     end
     
