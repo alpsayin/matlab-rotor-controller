@@ -42,6 +42,8 @@ classdef AntennaRotor < handle
 % 
     properties(Constant)
         DEGREES_PER_MOTOR_REV = 1000;
+        RESET_DELAY = 2.5;
+        COMMAND_DELAY = 0.2;
     end
     properties(SetAccess = protected)
         degrees_per_step = 1;
@@ -92,6 +94,7 @@ classdef AntennaRotor < handle
         end
         function resetSystem(obj)
             obj.println('%dZ', obj.controlleraddress);
+            pause(AntennaRotor.RESET_DELAY);
         end
         function setDegreesPerStep(obj, degrees_per_step)
             obj.degrees_per_step = degrees_per_step;
