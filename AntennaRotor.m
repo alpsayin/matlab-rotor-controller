@@ -157,6 +157,13 @@ classdef AntennaRotor < handle
             obj.println('MN')
             obj.println('K')
         end
+        function stop(obj)
+        %   stop()
+        %       sends a stop command to controller which causes the motor
+        %       to stop gracefully
+            obj.println('MN')
+            obj.println('S')
+        end
         function setControllerAddress(obj, address)
             obj.controlleraddress = address;
         end
