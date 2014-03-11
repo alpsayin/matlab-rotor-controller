@@ -56,6 +56,7 @@ classdef AntennaRotor < handle
         current_angle = 0; % current direction of the antenna
         acceleration = 1;
         velocity = 1;
+        connected = 0;
     end
     methods
         function obj = AntennaRotor(portName, baudrate)
@@ -162,9 +163,11 @@ classdef AntennaRotor < handle
         function openPort(obj)
             obj.comportObj = serial(obj.portname,'BaudRate',obj.baudrate,'DataBits',8);
             fopen(obj.comportObj);
+            obj.connected = 1;
         end
         function close(obj)
             fclose(obj.comportObj);
+            obj.connected = 0;
         end
         function response = query(obj, queryStr)
             response = query(obj.comportObj, queryStr);
