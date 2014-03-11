@@ -82,6 +82,14 @@ classdef AntennaRotor < handle
             obj.println('%dLD0', obj.controlleraddress);
             obj.safetylimits = 1;
         end
+        function pos = getAbsolutePosition(obj)
+            flushinput(obj.comportObj);
+            obj.println('%dPR', obj.controlleraddress);
+            pos = obj.scanf();
+        end
+        function resetPosition(obj)
+            obj.println('%dPZ', obj.controlleraddress);
+        end
         function resetSystem(obj)
             obj.println('%dZ', obj.controlleraddress);
         end
