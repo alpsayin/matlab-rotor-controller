@@ -2,7 +2,7 @@ classdef AntennaRotor < handle
 %     AntennaRotor a handle class for controlling the antenna rotator
 % 
 %       Author:     Alp Sayin
-%       Date:       11.03.2014
+%       Date:       07.03.2016
 % 
 %       type ' help AntennaRotor.`function_name` ' for detailed function docs
 % 
