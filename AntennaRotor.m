@@ -117,14 +117,16 @@ classdef AntennaRotor < handle
             obj.println('%dLD0', obj.controlleraddress);
             obj.safetylimits = 1;
         end
-        function pos = getAbsolutePosition(obj)
+        function posnum = getAbsolutePosition(obj)
         %   getAbsolutePosition()
         %       returns the absolute position of rotator
         %       absolute position is not necessarily the home position
         %       it is just the encoder count
             flushinput(obj.comportObj);
             obj.println('%dPR', obj.controlleraddress);
+			obj.requestLineFeed();
             pos = obj.scanf();
+            posnum = str2double(pos(2:end))/(obj.DEGREES_PER_MOTOR_REV*obj.gearboxratio);
         end
         function resetPosition(obj)
         %   resetPosition()
