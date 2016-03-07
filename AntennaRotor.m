@@ -270,7 +270,18 @@ classdef AntennaRotor < handle
         function response = query(obj, queryStr)
         %   response = query(queryStr)
         %       a simple debug function to query the controller box with a
-        %       query string and get a response
+        %       query string and get a response. The function also asks for
+		%		a line feed from the controller, so scanf can be triggered.
+			obj.println(queryStr);
+			obj.println('%dLF', obj.controlleraddress);
+            response = obj.scanf();
+        end
+        function response = rawquery(obj, queryStr)
+        %   response = rawquery(queryStr)
+        %       a simple debug function to query the controller box with a
+        %       raw query string and get a response. Note that this function
+		%		does not ask for a line feed from controller, so the response
+		% 		might arrive due to a read timeout.
             response = query(obj.comportObj, queryStr);
         end
         function printf(varargin)
