@@ -67,6 +67,7 @@ classdef AntennaRotor < handle
         current_angle = 0; % current direction of the antenna
         acceleration = 1;
         velocity = 1;
+		gearboxratio = 1;
         connected = 0;
     end
     methods
@@ -224,6 +225,15 @@ classdef AntennaRotor < handle
         %       sets the current controller address for sending commands
         %       only useful if there are more than one motors to control
             obj.controlleraddress = address;
+        end
+        function setGearboxRatio(obj, gear_box_ratio)
+        %   setGearboxRatio(gear_box_ratio)
+        %       sets the gear_box_ratio of the stepper, the parameter is a
+		% 		ratio between 0 and 1.0. The default value is 1.0, but if 
+		%		this class is to be used with different gearboxes, it can
+		%		be changed to numbers like 0.5;
+			if(gear_box_ratio > 0 && gear_box_ratio <= 1.0)
+				obj.gearboxratio = gear_box_ratio;
         end
         function setVelocity(obj, revs_per_sec)
         %   setVelocity(revs_per_sec)
