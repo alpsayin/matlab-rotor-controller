@@ -366,8 +366,8 @@ classdef AntennaRotor < handle
         %       easy shortcut member function to simply rotate antenna to a clockwise
         %       direction for specified number of degrees. the parameter is a
         %       number that defines degrees.
-            obj.defaultSetup();
-            pause(AntennaRotor.COMMAND_DELAY)
+			obj.setEchoMode(false);
+			pause(AntennaRotor.COMMAND_DELAY)
             
             obj.setDegreesPerStep(degrees);
             pause(AntennaRotor.COMMAND_DELAY)
@@ -385,7 +385,7 @@ classdef AntennaRotor < handle
         %       easy shortcut member function to simply rotate antenna to a 
         %       counter-clockwise direction for specified number of degrees.
         %       the parameter is a number that defines degrees.
-            obj.defaultSetup();
+			obj.setEchoMode(false);
             pause(AntennaRotor.COMMAND_DELAY)
             
             obj.setDegreesPerStep(degrees);
