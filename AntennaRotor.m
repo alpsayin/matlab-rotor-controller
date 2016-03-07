@@ -101,6 +101,7 @@ classdef AntennaRotor < handle
         %           acceleration: 10
         %           degrees_per_step: 10
         %           direction: clockwise
+			obj.setEchoMode(false);
             obj.setVelocity(10);
             obj.setAcceleration(10);
             obj.setDegreesPerStep(10);
