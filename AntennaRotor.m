@@ -305,6 +305,10 @@ classdef AntennaRotor < handle
             obj.comportObj = serial(obj.portname,'BaudRate',obj.baudrate,'DataBits',8);
             fopen(obj.comportObj);
             obj.connected = 1;
+			obj.setEchoMode(false);
+            fprintf('Wait for timeout...\n');
+            obj.scanf();
+            fprintf('Unsuccessful read means successful turn-off of echo\n');
         end
         function close(obj)
         %   close()
