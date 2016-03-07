@@ -143,7 +143,7 @@ classdef AntennaRotor < handle
         %       sets how much degrees should antenna rotate when
         %       stepper is activated.
             obj.degrees_per_step = degrees_per_step;
-            obj.println('D%d', obj.degrees_per_step*obj.DEGREES_PER_MOTOR_REV);
+            obj.println('D%d', obj.degrees_per_step*(obj.DEGREES_PER_MOTOR_REV*obj.gearboxratio));
         end
         function setDirection(obj, direction)
         %   setDirection(direction)
