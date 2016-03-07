@@ -133,7 +133,7 @@ classdef AntennaRotor < handle
             obj.println('%dPR', obj.controlleraddress);
 			obj.requestLineFeed();
             pos = obj.scanf();
-            posnum = str2double(pos(2:end))/(obj.DEGREES_PER_MOTOR_REV*obj.gearboxratio);
+            posnum = str2double(pos(2:end))/(obj.DEGREES_PER_MOTOR_REV*abs(obj.gearboxratio));
         end
         function resetPosition(obj)
         %   resetPosition()
@@ -152,17 +152,25 @@ classdef AntennaRotor < handle
         %       sets how much degrees should antenna rotate when
         %       stepper is activated.
             obj.degrees_per_step = degrees_per_step;
-            obj.println('D%d', obj.degrees_per_step*(obj.DEGREES_PER_MOTOR_REV*obj.gearboxratio));
+            obj.println('D%d', obj.degrees_per_step*(obj.DEGREES_PER_MOTOR_REV*abs(obj.gearboxratio))));
         end
         function setDirection(obj, direction)
         %   setDirection(direction)
         %       sets the direction to either 'cw' for clockwise
         %       or 'ccw' for counter-clockwise
-            if strcmpi(direction,'cw')
-                obj.setCW();
-            else
-                obj.setCCW();
-            end
+			if obj.gearboxratio > 0
+				if strcmpi(direction,'cw')
+					obj.setCW();
+				else
+					obj.setCCW();
+				end
+			else
+				if strcmpi(direction,'cw')
+					obj.setCCW();
+				else
+					obj.setCW();
+				end
+			end
         end
         function setCW(obj)
         %   setCW()
@@ -255,9 +263,10 @@ classdef AntennaRotor < handle
         function setGearboxRatio(obj, gear_box_ratio)
         %   setGearboxRatio(gear_box_ratio)
         %       sets the gear_box_ratio of the stepper, the parameter is a
-		% 		ratio between 0 and 1.0. The default value is 1.0, but if 
-		%		this class is to be used with different gearboxes, it can
-		%		be changed to numbers like 0.5;
+		% 		ratio between -1.0 and 1.0. The default value is 1.0. If 
+		%		this class is to be used with different gearboxes, it should
+		%		be changed to numbers like 0.5; Negative gear_box_ratio means
+		%		inverts the rotation direction.
 			if(gear_box_ratio > 0 && gear_box_ratio <= 1.0)
 				obj.gearboxratio = gear_box_ratio;
         end
