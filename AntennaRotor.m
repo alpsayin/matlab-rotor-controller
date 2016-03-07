@@ -243,6 +243,13 @@ classdef AntennaRotor < handle
             obj.acceleration = revs_per_sec_sq;
             obj.println('A%d', obj.acceleration);
         end
+		function requestLineFeed()
+		%   requestLineFeed()
+        %       Sets the echo mode of the controller. This class is not designed
+        %       to handle echoes from issued commands, therefore If echo mode is
+        %       to be turned on, it should be turned off after debugging.
+			obj.println('%dLF', obj.controlleraddress);
+		end
         function openFile(obj)
         %   openFile()
         %       debug method to test the protocol with files, shouldn't be used
