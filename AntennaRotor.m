@@ -180,7 +180,7 @@ classdef AntennaRotor < handle
                 obj.current_angle = obj.current_angle - obj.degrees_per_step;
             end
         end
-        function activateStepAndWait(obj)
+        function activateStepAndWaitEstimatedTime(obj)
         %   activateStepAndWait()
         %       activates and therefore moves the rotator for one step. 
         %       Note that this function immediately returns after sending 
