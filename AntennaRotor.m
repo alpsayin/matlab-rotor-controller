@@ -55,6 +55,7 @@ classdef AntennaRotor < handle
         DEGREES_PER_MOTOR_REV = 1000;
         RESET_DELAY = 2.5;
         COMMAND_DELAY = 0.2;
+		NUM_POLLS_PER_SECOND = 10;
     end
     properties(SetAccess = protected)
         degrees_per_step = 1;
@@ -195,6 +196,23 @@ classdef AntennaRotor < handle
             end
             delay = obj.degrees_per_step/obj.velocity;
             pause(delay)
+        end
+        function activateStepAndWaitUntil(obj)
+        %   activateStepAndWait()
+        %       activates and therefore moves the rotator for one step. 
+        %       Note that this function immediately returns after sending 
+        %       the command
+			initialAddress = obj.getAbsolutePosition();
+            obj.println('G');
+            if strcmpi(obj.direction, 'cw')
+                obj.current_angle = obj.current_angle + obj.degrees_per_step;
+				nextAddress = initialAddress + obj.degrees_per_step
+            else
+                obj.current_angle = obj.current_angle - obj.degrees_per_step;
+				nextAddress = initialAddress - obj.degrees_per_step
+            end
+			while obj.getAbsolutePosition() ~= nextAddress
+				pause(1.0/obj.NUM_POLLS_PER_SECOND)
         end
         function goToHome(obj)
         %   goToHome()
