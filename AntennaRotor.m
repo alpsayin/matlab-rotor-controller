@@ -26,41 +26,41 @@ classdef AntennaRotor < handle
 %                 obj = AntennaRotor(portName, baudrate)
 % 
 %       Functions:
-%                 defaultSetup()
-%                 disableSafetyLimits()
-%                 enableSafetyLimits()
-%				  getAbsolutePosition()
-%                 resetSystem()
-%                 setDegreesPerStep(degrees_per_step)
-%                 setDirection(direction)
-%                 setCW()
-%                 setCCW()
-%                 activateStep()
-%                 activateStepAndWait()
-%                 goToZero()
-%                 setControllerAddress( address )
-%				  setGearboxRatio( gear_box_ratio )
-%                 setVelocity( revs_per_sec )
-%                 setAcceleration( revs_per_sec_sq )
-%                 emergencyStop()
-%                 rotateCW()
-%                 rotateCCW()		
-%   			  setEchoMode()
-%   			  requestLineFeed()
-%                 openFile()
-%                 openPort()
-%                 close()
-%                 response = query( queryStr )
-%                 response = rawquery( queryStr )
-%                 printf( varargin )
-%                 println( str )
-%                 response = scanf()
+%             defaultSetup()
+%             disableSafetyLimits()
+%             enableSafetyLimits()
+%             getAbsolutePosition()
+%             resetSystem()
+%             setDegreesPerStep(degrees_per_step)
+%             setDirection(direction)
+%             setCW()
+%             setCCW()
+%             activateStep()
+%             activateStepAndWait()
+%             goToZero()
+%             setControllerAddress( address )
+%             setGearboxRatio( gear_box_ratio )
+%             setVelocity( revs_per_sec )
+%             setAcceleration( revs_per_sec_sq )
+%             emergencyStop()
+%             rotateCW()
+%             rotateCCW()       
+%             setEchoMode()
+%             requestLineFeed()
+%             openFile()
+%             openPort()
+%             close()
+%             response = query( queryStr )
+%             response = rawquery( queryStr )
+%             printf( varargin )
+%             println( str )
+%             response = scanf()
 % 
     properties(Constant)
         DEGREES_PER_MOTOR_REV = 1000;
         RESET_DELAY = 2.5;
         COMMAND_DELAY = 0.2;
-		NUM_POLLS_PER_SECOND = 10;
+        NUM_POLLS_PER_SECOND = 10;
     end
     properties(SetAccess = protected)
         degrees_per_step = 1;
@@ -73,14 +73,14 @@ classdef AntennaRotor < handle
         current_angle = 0; % current direction of the antenna
         acceleration = 1;
         velocity = 1;
-		gearboxratio = 1;
+        gearboxratio = 1;
         connected = 0;
     end
     methods
         function obj = AntennaRotor(portName, baudrate)
         %   AntennaRotor(portName, baudrate)    
         %   class constructor
-        %	params: 
+        %   params: 
         %       portname: 'COM4', '/dev/ttyUSB0'
         %       baudrate: 9600
             if nargin > 0
@@ -106,7 +106,7 @@ classdef AntennaRotor < handle
         %           acceleration: 10
         %           degrees_per_step: 10
         %           direction: clockwise
-			obj.setEchoMode(false);
+            obj.setEchoMode(false);
             obj.setVelocity(10);
             obj.setAcceleration(10);
             obj.setDegreesPerStep(10);
@@ -131,7 +131,7 @@ classdef AntennaRotor < handle
         %       it is just the encoder count
             flushinput(obj.comportObj);
             obj.println('%dPR', obj.controlleraddress);
-			obj.requestLineFeed();
+            obj.requestLineFeed();
             pos = obj.scanf();
             posnum = str2double(pos(2:end))/(obj.DEGREES_PER_MOTOR_REV*abs(obj.gearboxratio));
         end
@@ -158,19 +158,19 @@ classdef AntennaRotor < handle
         %   setDirection(direction)
         %       sets the direction to either 'cw' for clockwise
         %       or 'ccw' for counter-clockwise
-			if obj.gearboxratio > 0
-				if strcmpi(direction,'cw')
-					obj.setCW();
-				else
-					obj.setCCW();
-				end
-			else
-				if strcmpi(direction,'cw')
-					obj.setCCW();
-				else
-					obj.setCW();
-				end
-			end
+            if obj.gearboxratio > 0
+                if strcmpi(direction,'cw')
+                    obj.setCW();
+                else
+                    obj.setCCW();
+                end
+            else
+                if strcmpi(direction,'cw')
+                    obj.setCCW();
+                else
+                    obj.setCW();
+                end
+            end
         end
         function setCW(obj)
         %   setCW()
@@ -216,17 +216,18 @@ classdef AntennaRotor < handle
         %       activates and therefore moves the rotator for one step. 
         %       Note that this function immediately returns after sending 
         %       the command
-			initialAddress = obj.getAbsolutePosition();
+            initialAddress = obj.getAbsolutePosition();
             obj.println('G');
             if strcmpi(obj.direction, 'cw')
                 obj.current_angle = obj.current_angle + obj.degrees_per_step;
-				nextAddress = initialAddress + obj.degrees_per_step
+                nextAddress = initialAddress + obj.degrees_per_step
             else
                 obj.current_angle = obj.current_angle - obj.degrees_per_step;
-				nextAddress = initialAddress - obj.degrees_per_step
+                nextAddress = initialAddress - obj.degrees_per_step
             end
-			while obj.getAbsolutePosition() ~= nextAddress
-				pause(1.0/obj.NUM_POLLS_PER_SECOND)
+            while obj.getAbsolutePosition() ~= nextAddress
+                pause(1.0/obj.NUM_POLLS_PER_SECOND)
+            end
         end
         function goToHome(obj)
         %   goToHome()
@@ -263,12 +264,12 @@ classdef AntennaRotor < handle
         function setGearboxRatio(obj, gear_box_ratio)
         %   setGearboxRatio(gear_box_ratio)
         %       sets the gear_box_ratio of the stepper, the parameter is a
-		% 		ratio between -1.0 and 1.0. The default value is 1.0. If 
-		%		this class is to be used with different gearboxes, it should
-		%		be changed to numbers like 0.5; Negative gear_box_ratio means
-		%		inverts the rotation direction.
-			if(gear_box_ratio > 0 && gear_box_ratio <= 1.0)
-				obj.gearboxratio = gear_box_ratio;
+        %       ratio between -1.0 and 1.0. The default value is 1.0. If 
+        %       this class is to be used with different gearboxes, it should
+        %       be changed to numbers like 0.5; Negative gear_box_ratio means
+        %       inverts the rotation direction.
+            if(gear_box_ratio > 0 && gear_box_ratio <= 1.0)
+                obj.gearboxratio = gear_box_ratio;
         end
         function setVelocity(obj, revs_per_sec)
         %   setVelocity(revs_per_sec)
@@ -288,23 +289,23 @@ classdef AntennaRotor < handle
             obj.acceleration = revs_per_sec_sq;
             obj.println('A%d', obj.acceleration);
         end
-		function setEchoMode(echo_mode_on)
-		%   setEchoMode()
+        function setEchoMode(echo_mode_on)
+        %   setEchoMode()
         %       Sets the echo mode of the controller. This class is not designed
         %       to handle echoes from issued commands, therefore If echo mode is
         %       to be turned on, it should be turned off after debugging.
-			if echo_mode_on
-				obj.println('%dSSA0', obj.controlleraddress);
-			else
-				obj.println('%dSSA1', obj.controlleraddress);
-		end
-		function requestLineFeed()
-		%   requestLineFeed()
+        if echo_mode_on
+            obj.println('%dSSA0', obj.controlleraddress);
+        else
+            obj.println('%dSSA1', obj.controlleraddress);
+        end
+        function requestLineFeed()
+        %   requestLineFeed()
         %       Sets the echo mode of the controller. This class is not designed
         %       to handle echoes from issued commands, therefore If echo mode is
         %       to be turned on, it should be turned off after debugging.
-			obj.println('%dLF', obj.controlleraddress);
-		end
+            obj.println('%dLF', obj.controlleraddress);
+        end
         function openFile(obj)
         %   openFile()
         %       debug method to test the protocol with files, shouldn't be used
@@ -320,7 +321,7 @@ classdef AntennaRotor < handle
             obj.comportObj = serial(obj.portname,'BaudRate',obj.baudrate,'DataBits',8);
             fopen(obj.comportObj);
             obj.connected = 1;
-			obj.setEchoMode(false);
+            obj.setEchoMode(false);
             fprintf('Wait for timeout...\n');
             obj.scanf();
             fprintf('Unsuccessful read means successful turn-off of echo\n');
@@ -337,17 +338,17 @@ classdef AntennaRotor < handle
         %   response = query(queryStr)
         %       a simple debug function to query the controller box with a
         %       query string and get a response. The function also asks for
-		%		a line feed from the controller, so scanf can be triggered.
-			obj.println(queryStr);
-			obj.println('%dLF', obj.controlleraddress);
+        %       a line feed from the controller, so scanf can be triggered.
+            obj.println(queryStr);
+            obj.println('%dLF', obj.controlleraddress);
             response = obj.scanf();
         end
         function response = rawquery(obj, queryStr)
         %   response = rawquery(queryStr)
         %       a simple debug function to query the controller box with a
         %       raw query string and get a response. Note that this function
-		%		does not ask for a line feed from controller, so the response
-		% 		might arrive due to a read timeout.
+        %       does not ask for a line feed from controller, so the response
+        %       might arrive due to a read timeout.
             response = query(obj.comportObj, queryStr);
         end
         function printf(varargin)
@@ -380,8 +381,8 @@ classdef AntennaRotor < handle
         %       easy shortcut member function to simply rotate antenna to a clockwise
         %       direction for specified number of degrees. the parameter is a
         %       number that defines degrees.
-			obj.setEchoMode(false);
-			pause(AntennaRotor.COMMAND_DELAY)
+            obj.setEchoMode(false);
+            pause(AntennaRotor.COMMAND_DELAY)
             
             obj.setDegreesPerStep(degrees);
             pause(AntennaRotor.COMMAND_DELAY)
@@ -399,7 +400,7 @@ classdef AntennaRotor < handle
         %       easy shortcut member function to simply rotate antenna to a 
         %       counter-clockwise direction for specified number of degrees.
         %       the parameter is a number that defines degrees.
-			obj.setEchoMode(false);
+            obj.setEchoMode(false);
             pause(AntennaRotor.COMMAND_DELAY)
             
             obj.setDegreesPerStep(degrees);
